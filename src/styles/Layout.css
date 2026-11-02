@@ -1,0 +1,143 @@
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--background);
+}
+
+/* Sidebar */
+
+.sidebar {
+  width: 250px;
+  min-width: 250px;
+  background: var(--dark-purple);
+  color: white;
+  padding: 25px 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-logo {
+  font-size: 25px;
+  font-weight: 700;
+  color: #c3a0f2;
+  padding: 0 10px;
+  margin-bottom: 45px;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 10px;
+  border-radius: 8px;
+  color: #c3a0f2;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.menu-link:hover {
+  background: #49217d;
+  color: white;
+}
+
+.menu-link.active {
+  background: #a87be9;
+  color: white;
+}
+
+.sidebar-bottom {
+  margin-top: 35px;
+  padding-top: 20px;
+  border-top: 1px solid #7956a4;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Main area */
+
+.dashboard-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.topbar {
+  height: 88px;
+  background: #e6d8f7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+
+.search-box {
+  width: 480px;
+  max-width: 75%;
+  height: 48px;
+  background: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+  color: var(--text-light);
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+}
+
+.profile-circle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #b18ae9;
+  color: white;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+}
+
+.dashboard-content {
+  padding: 25px;
+}
+
+@media (max-width: 750px) {
+  .sidebar {
+    width: 75px;
+    min-width: 75px;
+    padding: 20px 8px;
+  }
+
+  .sidebar-logo {
+    font-size: 0;
+    margin-bottom: 35px;
+  }
+
+  .menu-link {
+    justify-content: center;
+    padding: 12px 5px;
+  }
+
+  .menu-link span {
+    display: none;
+  }
+
+  .topbar {
+    padding: 0 15px;
+  }
+
+  .dashboard-content {
+    padding: 15px;
+  }
+}
