@@ -1,4 +1,9 @@
+
 import PreparationTracker from "./pages/PreparationTracker";
+import DailyMissions from "./pages/DailyMissions";
+import SubjectsLearning from "./pages/SubjectsLearning";
+import MockInterview from "./pages/MockInterview";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -21,15 +26,17 @@ function App() {
         {/* Dashboard pages */}
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route
-  path="/tracker"
-  element={<PreparationTracker />}
-/>
-          <Route path="/missions" element={<PlaceholderPage />} />
-          <Route path="/subjects" element={<PlaceholderPage />} />
+
+          <Route path="/tracker" element={<PreparationTracker />} />
+
+          <Route path="/missions" element={<DailyMissions />} />
+
+          <Route path="/subjects" element={<SubjectsLearning />} />
+
+          <Route path="/interview" element={<MockInterview />} />
+
           <Route path="/coding" element={<PlaceholderPage />} />
           <Route path="/companies" element={<PlaceholderPage />} />
-          <Route path="/interview" element={<PlaceholderPage />} />
           <Route path="/skill-gap" element={<PlaceholderPage />} />
           <Route path="/resources" element={<PlaceholderPage />} />
           <Route path="/notifications" element={<PlaceholderPage />} />
