@@ -1,6 +1,7 @@
 
 import React, { useMemo, useState } from "react";
 import "../styles/SubjectsLearning.css";
+import { Link } from "react-router-dom";
 
 const subjects = [
   {
@@ -162,11 +163,14 @@ function SubjectsLearning() {
   }, [activeCategory, searchTerm]);
 
   const toggleSubject = (id) => {
-    setExpandedSubject((current) => (current === id ? null : id));
+    setExpandedSubject((current) =>
+      current === id ? null : id
+    );
   };
 
   return (
     <div className="subjects-page">
+
       {/* Page heading */}
       <div className="subjects-heading">
         <h1>Subjects &amp; Learning Path</h1>
@@ -174,8 +178,10 @@ function SubjectsLearning() {
       </div>
 
       <div className="subjects-layout">
+
         {/* Main subjects section */}
         <main className="subjects-main">
+
           {/* Search */}
           <div className="subjects-search">
             <input
@@ -212,7 +218,8 @@ function SubjectsLearning() {
                 const progress =
                   (subject.completed / subject.total) * 100;
 
-                const isExpanded = expandedSubject === subject.id;
+                const isExpanded =
+                  expandedSubject === subject.id;
 
                 return (
                   <article
@@ -221,21 +228,42 @@ function SubjectsLearning() {
                     }`}
                     key={subject.id}
                   >
-                    <button
-                      className="subject-card-header"
-                      onClick={() => toggleSubject(subject.id)}
-                      aria-expanded={isExpanded}
-                    >
-                      <div>
-                        <h2>{subject.name}</h2>
-                        <p>{subject.description}</p>
-                      </div>
 
-                      <span className="subject-arrow">
-                        {isExpanded ? "⌄" : "›"}
-                      </span>
-                    </button>
+                    {/* Coding card navigates to Coding page */}
+                    {subject.name === "Coding" ? (
+                      <Link
+                        to="/coding"
+                        className="coding-learning-link"
+                      >
+                        <div className="subject-card-header">
+                          <div>
+                            <h2>{subject.name}</h2>
+                            <p>{subject.description}</p>
+                          </div>
 
+                          <span className="subject-arrow">›</span>
+                        </div>
+                      </Link>
+                    ) : (
+
+                      /* Other cards expand normally */
+                      <button
+                        className="subject-card-header"
+                        onClick={() => toggleSubject(subject.id)}
+                        aria-expanded={isExpanded}
+                      >
+                        <div>
+                          <h2>{subject.name}</h2>
+                          <p>{subject.description}</p>
+                        </div>
+
+                        <span className="subject-arrow">
+                          {isExpanded ? "⌄" : "›"}
+                        </span>
+                      </button>
+                    )}
+
+                    {/* Progress */}
                     <div className="subject-progress-text">
                       {subject.completed} of {subject.total} Topics
                     </div>
@@ -254,12 +282,16 @@ function SubjectsLearning() {
                       />
                     </div>
 
-                    {isExpanded && (
+                    {/* Expanded topics for other subjects */}
+                    {isExpanded && subject.name !== "Coding" && (
                       <div className="subject-topic-list">
                         <h3>Topics to learn</h3>
 
                         {subject.topics.map((topic, index) => (
-                          <div className="subject-topic" key={topic}>
+                          <div
+                            className="subject-topic"
+                            key={topic}
+                          >
                             <span>
                               {index < subject.completed ? "✓" : "○"}
                             </span>
@@ -268,13 +300,16 @@ function SubjectsLearning() {
                         ))}
                       </div>
                     )}
+
                   </article>
                 );
               })
             ) : (
               <div className="subjects-empty">
                 <h3>No subjects found</h3>
-                <p>Try another search or select a different category.</p>
+                <p>
+                  Try another search or select a different category.
+                </p>
               </div>
             )}
           </div>
@@ -282,6 +317,7 @@ function SubjectsLearning() {
 
         {/* Right sidebar */}
         <aside className="subjects-sidebar">
+
           {/* Featured learning path */}
           <section className="featured-learning-card">
             <h2>Featured Learning Path</h2>
@@ -295,16 +331,12 @@ function SubjectsLearning() {
             <h3>DSA For Placements</h3>
             <p>8 weeks · 12 Topics</p>
 
-            <button
+            <Link
+              to="/coding"
               className="start-learning-button"
-              onClick={() => {
-                setActiveCategory("Coding");
-                setSearchTerm("");
-                setExpandedSubject(1);
-              }}
             >
               Start Learning
-            </button>
+            </Link>
           </section>
 
           {/* Resources */}
@@ -324,6 +356,7 @@ function SubjectsLearning() {
               ))}
             </div>
           </section>
+
         </aside>
       </div>
     </div>

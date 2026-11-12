@@ -1,151 +1,164 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "../styles/Auth.css";
+
 function Signup() {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  
+  const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (formData.password !== formData.confirmPassword) {
+    setError("Passwords do not match.");
+    return;
+  }
+
+  if (formData.password.length < 6) {
+    setError("Password must contain at least 6 characters.");
+    return;
+  }
+
+  // Temporary frontend-only registration
+  const user = {
+    name: formData.name,
+    email: formData.email,
+    password: formData.password,
+  };
+
+  localStorage.setItem("prepnxtUser", JSON.stringify(user));
+
+  navigate("/login", {
+    state: {
+      message: "Account created successfully! Please login.",
+    },
+  });
+};
+
   return (
-    <div style={styles.page}>
-      <div style={styles.card}>
-        <div style={styles.brandWrap}>
-          <div style={styles.logo}>P</div>
-          <span style={styles.brand}>PrepNxt</span>
+    <div className="auth-page">
+      <div className="auth-card signup-card">
+
+        <Link to="/" className="auth-logo">
+          Prep<span>Nxt</span>
+        </Link>
+
+        <div className="auth-heading">
+          <h1>Create Account</h1>
+          <p>Start your placement preparation journey today!</p>
         </div>
 
-        <h1 style={styles.title}>Create your account</h1>
-        <p style={styles.subtitle}>Start organizing your goals, tasks, and milestones.</p>
+        <form onSubmit={handleSubmit} className="auth-form">
 
-        <form style={styles.form}>
-          <div style={styles.nameRow}>
-            <label style={styles.label}>
-              First name
-              <input type="text" placeholder="John" style={styles.input} />
-            </label>
-            <label style={styles.label}>
-              Last name
-              <input type="text" placeholder="Doe" style={styles.input} />
-            </label>
+          <div className="auth-input-group">
+            <label>Full Name</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter your full name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
           </div>
 
-          <label style={styles.label}>
-            Email address
-            <input type="email" placeholder="you@example.com" style={styles.input} />
-          </label>
+          <div className="auth-input-group">
+            <label>Email Address</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-          <label style={styles.label}>
-            Password
-            <input type="password" placeholder="Create a password" style={styles.input} />
-          </label>
+          <div className="auth-input-group">
+            <label>Password</label>
 
-          <label style={styles.label}>
-            Confirm password
-            <input type="password" placeholder="Re-enter password" style={styles.input} />
-          </label>
+            <div className="auth-password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Create a password"
+                value={formData.password}
+                onChange={handleChange}
+                minLength={8}
+                required
+              />
 
-          <button type="submit" style={styles.primaryButton}>Sign up</button>
+              <button
+                type="button"
+                className="auth-toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+          </div>
+
+          <div className="auth-input-group">
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm your password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              minLength={8}
+              required
+            />
+          </div>
+
+          {error && (
+            <p className="auth-error">{error}</p>
+          )}
+
+          <button
+            type="submit"
+            className="auth-submit-btn"
+            disabled={loading}
+          >
+            {loading ? "Creating Account..." : "Create Account"}
+          </button>
+
         </form>
 
-        <p style={styles.footerText}>
-          Already have an account? <a href="#" style={styles.link}>Login</a>
+        <div className="auth-divider">
+          <span>OR</span>
+        </div>
+
+        <p className="auth-switch">
+          Already have an account?
+          <Link to="/login"> Login</Link>
         </p>
+
+        <Link to="/" className="auth-back-home">
+          ← Back to Home
+        </Link>
+
       </div>
     </div>
-  )
+  );
 }
 
-const styles = {
-  page: {
-    minHeight: '100vh',
-    display: 'grid',
-    placeItems: 'center',
-    background: 'linear-gradient(135deg, #f7f9ff 0%, #eaf2ff 100%)',
-    padding: 26,
-    fontFamily: 'Inter, sans-serif',
-    color: '#122033',
-  },
-  card: {
-    width: '100%',
-    maxWidth: 520,
-    background: '#fff',
-    borderRadius: 26,
-    padding: 30,
-    boxShadow: '0 22px 60px rgba(19, 35, 58, 0.08)',
-    border: '1px solid rgba(18, 32, 51, 0.06)',
-  },
-  brandWrap: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 12,
-    marginBottom: 10,
-  },
-  logo: {
-    width: 38,
-    height: 38,
-    borderRadius: 12,
-    background: 'linear-gradient(135deg, #1a73e8 0%, #5ba5ff 100%)',
-    display: 'grid',
-    placeItems: 'center',
-    color: '#fff',
-    fontWeight: 800,
-  },
-  brand: {
-    fontSize: 24,
-    fontWeight: 700,
-    color: '#1a73e8',
-  },
-  title: {
-    margin: '10px 0 8px',
-    fontSize: 30,
-    letterSpacing: '-0.05em',
-  },
-  subtitle: {
-    margin: 0,
-    color: '#5d7389',
-    lineHeight: 1.6,
-  },
-  form: {
-    display: 'grid',
-    gap: 16,
-    marginTop: 24,
-  },
-  nameRow: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: 14,
-  },
-  label: {
-    display: 'grid',
-    gap: 8,
-    fontWeight: 600,
-    color: '#294767',
-    fontSize: 14,
-  },
-  input: {
-    width: '100%',
-    borderRadius: 12,
-    border: '1px solid #dfe9f8',
-    padding: '12px 14px',
-    fontSize: 15,
-    boxSizing: 'border-box',
-    outline: 'none',
-    background: '#f9fbff',
-  },
-  primaryButton: {
-    marginTop: 10,
-    border: 'none',
-    background: 'linear-gradient(135deg, #1a73e8 0%, #4c94ff 100%)',
-    color: '#fff',
-    borderRadius: 12,
-    padding: '14px 18px',
-    fontWeight: 700,
-    cursor: 'pointer',
-    boxShadow: '0 14px 28px rgba(26,115,232,0.20)',
-  },
-  footerText: {
-    margin: '22px 0 0',
-    textAlign: 'center',
-    color: '#5a7285',
-  },
-  link: {
-    color: '#1a73e8',
-    textDecoration: 'none',
-    fontWeight: 700,
-  },
-}
-
-export default Signup
+export default Signup;

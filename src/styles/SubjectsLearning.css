@@ -254,6 +254,7 @@
     #ded1fa,
     #f0edf9 72%
   );
+  transform: rotate(0deg) !important;
 }
 
 .featured-art-icon {
@@ -385,4 +386,14 @@
   .featured-illustration {
     height: 175px;
   }
+}
+.coding-learning-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.coding-learning-link:hover {
+  transform: translateY(-3px);
 }
